@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import com.github.igotyou.FactoryMod.recipes.*;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -27,24 +28,6 @@ import com.github.igotyou.FactoryMod.eggs.IFactoryEgg;
 import com.github.igotyou.FactoryMod.eggs.PipeEgg;
 import com.github.igotyou.FactoryMod.eggs.SorterEgg;
 import com.github.igotyou.FactoryMod.listeners.NetherPortalListener;
-import com.github.igotyou.FactoryMod.recipes.AOERepairRecipe;
-import com.github.igotyou.FactoryMod.recipes.CompactingRecipe;
-import com.github.igotyou.FactoryMod.recipes.DecompactingRecipe;
-import com.github.igotyou.FactoryMod.recipes.DeterministicEnchantingRecipe;
-import com.github.igotyou.FactoryMod.recipes.DummyParsingRecipe;
-import com.github.igotyou.FactoryMod.recipes.FactoryMaterialReturnRecipe;
-import com.github.igotyou.FactoryMod.recipes.IRecipe;
-import com.github.igotyou.FactoryMod.recipes.InputRecipe;
-import com.github.igotyou.FactoryMod.recipes.LoreEnchantRecipe;
-import com.github.igotyou.FactoryMod.recipes.PrintBookRecipe;
-import com.github.igotyou.FactoryMod.recipes.PrintNoteRecipe;
-import com.github.igotyou.FactoryMod.recipes.PrintingPlateRecipe;
-import com.github.igotyou.FactoryMod.recipes.ProductionRecipe;
-import com.github.igotyou.FactoryMod.recipes.PylonRecipe;
-import com.github.igotyou.FactoryMod.recipes.RandomOutputRecipe;
-import com.github.igotyou.FactoryMod.recipes.RecipeScalingUpgradeRecipe;
-import com.github.igotyou.FactoryMod.recipes.RepairRecipe;
-import com.github.igotyou.FactoryMod.recipes.Upgraderecipe;
 import com.github.igotyou.FactoryMod.recipes.scaling.ProductionRecipeModifier;
 import com.github.igotyou.FactoryMod.structures.BlockFurnaceStructure;
 import com.github.igotyou.FactoryMod.structures.FurnCraftChestStructure;
@@ -594,6 +577,33 @@ public class ConfigParser {
 			}
 			result = new ProductionRecipe(identifier, name, productionTime, input, output, recipeRepresentation, modi);
 			break;
+		case "FREEFORM":
+			int min_inputs = config.getInt("mininium_equal_unique_inputs");
+			List<Material> available = new LinkedList<>();
+			if (config.isList("available_inputs")) {
+				for (String mat : config.getStringList("available_inputs")) {
+					try {
+						available.add(Material.valueOf(mat));
+					} catch (IllegalArgumentException iae) {
+						plugin.warning(mat + " is not a valid material to input: " + config.getCurrentPath());
+					}
+				}
+			}
+			else {
+				if (parentRecipe instanceof FreeFormRecipe) {
+					//copy so they are not using same instance
+					for(Material m : ((FreeFormRecipe) parentRecipe).getAvailableMaterials()) {
+						available.add(m);
+					}
+				}
+				//otherwise just leave list empty, as nothing is specified, which is fine
+			}
+			ConfigurationSection outputSectionFF = config.getConfigurationSection("output");
+			ItemStack recipeRepresentationFF = parseFirstItem(outputSectionFF);
+			result = new FreeFormRecipe(identifier, input, available, recipeRepresentationFF, recipeRepresentationFF, name,
+					productionTime, min_inputs);
+			break;
+
 		case "COMPACT":
 			String compactedLore = config.getString("compact_lore", 
 					(parentRecipe instanceof CompactingRecipe) ? ((CompactingRecipe)parentRecipe).getCompactedLore() : null);

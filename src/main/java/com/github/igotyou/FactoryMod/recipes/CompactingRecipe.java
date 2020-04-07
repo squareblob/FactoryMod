@@ -131,7 +131,7 @@ public class CompactingRecipe extends InputRecipe {
 
 	/**
 	 * Removes the amount required to compact the given ItemStack from the given inventory and adds a comapcted item to the inventory
-	 * 
+	 *
 	 * @param is
 	 */
 	private void compact(ItemStack is, Inventory i) {
@@ -164,10 +164,10 @@ public class CompactingRecipe extends InputRecipe {
 	}
 	/**
 	 * Checks whether enough of a certain item stack is available to compact it
-	 * 
+	 *
 	 * @param is
 	 *            ItemStack to check
-	 * @param im 
+	 * @param im
 	 * 	      ItemMap representing the inventory from which is compacted
 	 * @return True if compacting the stack is allowed, false if not
 	 */
@@ -175,10 +175,10 @@ public class CompactingRecipe extends InputRecipe {
 		if (is == null || excludedMaterials.contains(is.getType()) || (input.getAmount(is) != 0) || (is.getItemMeta().getLore() != null &&
 				is.getItemMeta().getLore().contains(compactedLore)) || (is.getItemMeta().hasEnchants() && is.getType().getMaxStackSize() == 1)) {
 			return false;
-		}	
+		}
 		if (im.getAmount(is) >= getCompactStackSize(is.getType())) {
 			return true;
-		} 
+		}
 		return false;
 	}
 
