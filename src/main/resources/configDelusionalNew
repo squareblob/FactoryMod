@@ -1,0 +1,278 @@
+default_update_time: 1s
+default_fuel:
+  charcoal:
+    material: CHARCOAL
+default_fuel_consumption_intervall: 1s
+default_menu_factory: Basic Contraption
+default_return_rate: 0.5
+default_break_grace_period: 1000d
+decay_intervall: 1h
+decay_amount: 21
+default_health: 10000
+disable_nether: false
+use_recipe_yamlidentifiers: true
+log_inventories: true
+
+
+# FACTORY LIST
+factories:
+
+  # BASIC CONTRAPTION
+  basic_contraption:
+    type: FCC
+    name: Basic Contraption
+    citadelBreakReduction: 1.0
+    setupcost:
+      stone:
+        material: STONE
+        amount: 128
+      recipes:
+      - smelt_stone_1
+      - bake_charcoal_1
+      - upgrade_to_charcoal_factory
+      - upgrade_to_stone_smelter
+      - upgrade_to_iron_smelter
+      - upgrade_to_aesthetics_factory
+      - upgrade_to_ore_smelter
+      - upgrade_to_wool_dyer
+      - upgrade_to_terracotta_dyer
+      - upgrade_to_glass_dyer
+      - upgrade_to_concrete_mixer
+      - upgrade_to_food_factory
+      - upgrade_to_bio_factory
+      - upgrade_to_wood_shack
+      # - upgrade_to_compactor
+      - upgrade_to_stew_factory
+      - repair_basic_contraption
+
+  # STONE SMELTER
+  stone_smelter:
+    type: FCCUPGRADE
+    name: Stone Smelter
+    citadelBreakReduction: 1.0
+      - smelt_stone_2
+      - smelt_glass
+      - smelt_bricks
+      - smelt_terracotta
+      - smelt_sandstone
+      - repair_stone_smelter
+
+  # STEW FACTORY
+  stew_factory:
+   type: FCCUPGRADE
+   name: Stew Factory
+   citadelBreakReduction: 1.0
+   recipes:
+    - cook_stew
+    - repair_stew
+
+
+#recipes
+recipes:
+
+  # BASIC CONTRAPTION RECIPES
+  smelt_stone_1:
+    production_time: 4s
+    name: Smelt Stone (Basic)
+    type: PRODUCTION
+    input:
+      cobblestone:
+        material: COBBLESTONE
+        amount: 64
+    output:
+      stone:
+        material: STONE
+        amount: 96
+
+  bake_charcoal_1:
+    production_time: 4s
+    name: Smelt Wood (Basic)
+    type: PRODUCTION
+    input:
+      wood:
+        material: OAK_LOG #needs to be tested for 1.14
+        amount: 64
+    output:
+      charcoal:
+        material: CHARCOAL
+        amount: 64
+
+  # STONE SMELTER RECIPES
+  smelt_stone_2:
+    production_time: 4s
+    name: Smelt Stone (Advanced)
+    type: PRODUCTION
+    input:
+      cobblestone:
+        material: COBBLESTONE
+        amount: 64
+    output:
+      stone:
+        material: STONE
+        amount: 128
+  smelt_glass:
+    production_time: 4s
+    name: Smelt Glass
+    input:
+      sand:
+        material: SAND
+        amount: 64
+    output:
+      glass:
+        material: GLASS
+        amount: 128
+  smelt_bricks:
+    production_time: 4s
+      name: Smelt Bricks
+      input:
+        clay:
+          material: CLAY_BALL
+          amount: 64
+      output:
+        bricks:
+          material: BRICK
+          amount: 256
+  smelt_terracotta:
+    production_time: 4s
+    name: Smelt Terracotta
+    input:
+      clay_block:
+        material: CLAY
+        amount: 128
+    output:
+      terracotta:
+        material: TERRACOTTA
+        amount: 256
+  smelt_sandstone:
+    production_time: 4s
+    name: Smelt Sandstone
+    input:
+      sand:
+        material: SAND
+        amount: 64
+    output:
+      sandstone:
+        material: SANDSTONE
+        amount: 64
+
+  # BASIC CONTRAPTION UPGRADES
+  upgrade_to_stone_smelter:
+    production_time: 4s
+    name: Upgrade to Stone Smelter
+    type: UPGRADE
+    input:
+      stone:
+        material: STONE
+        amount: 1024
+      essence:
+        material: ENDER_EYE
+        amount: 8
+        lore:
+        - Essence
+        enchants:
+          dura:
+            enchant: DURABILITY
+    factory: Stone Smelter
+
+  # REPAIR RECIPES
+  repair_basic_contraption:
+    production_time: 4s
+    name: Repair Basic Contraption
+    type: REPAIR
+    input:
+      stone:
+        material: STONE
+        amount: 64
+    health_gained: 10000
+  repair_stone_smelter:
+    production_time: 4s
+    name: Repair Stone Smelter
+    type: REPAIR
+    input:
+      stone:
+        material: STONE
+        amount: 64
+      essence:
+        material: ENDER_EYE
+        amount: 1
+        lore:
+        - Essence
+        enchants:
+          dura:
+            enchant: DURABILITY
+    health_gained: 10000
+
+  # STEW
+  cook_stew:
+    type: FREEFORM
+    name: Cook Stew
+    production_time: 2s
+    available_inputs:
+      - OAK_SAPLING
+      - SPRUCE_SAPLING
+      - BIRCH_SAPLING
+      - JUNGLE_SAPLING
+      - ACACIA_SAPLING
+      - FERN
+      - DEAD_BUSH
+      - DANDELION
+      - POPPY
+      - BLUE_ORCHID
+      - ALLIUM
+      - AZURE_BLUET
+      - RED_TULIP
+      - ORANGE_TULIP
+      - WHITE_TULIP
+      - PINK_TULIP
+      - OXEYE_DAISY
+      - SUNFLOWER
+      - ROSE_BUSH
+      - PEONY
+      - CORNFLOWER
+      - BROWN_MUSHROOM
+      - RED_MUSHROOM
+      - CACTUS
+      - SUGAR_CANE
+      - PUMPKIN
+      - MELON
+      - CARROT
+      - BEETROOT
+      - BEETROOT_SEEDS
+      - WHEAT
+      - WHEAT_SEEDS
+      - BAMBOO
+      - SWEET_BERRIES
+      - NETHER_WART
+      - COCOA
+      - COCOA_BEANS
+      - CHORUS_FRUIT
+      - SEA_PICKLE
+      - SEAGRASS
+      - VINE
+      - KELP
+      - SALMON
+      - COD
+      - TROPICAL_FISH
+      - PUFFERFISH
+    minimum_equal_unique_inputs: 3
+    output:
+      stew:
+        material: EMERALD
+        amount: 1
+  repair_stew:
+    production_time: 4s
+    name: Repair Factory
+    type: REPAIR
+    input:
+      mushroom:
+        material: MUSHROOM_STEW
+        amount: 1
+      essence:
+        material: ENDER_EYE
+        amount: 8
+        lore:
+        - Essence
+        enchants:
+          dura:
+            enchant: DURABILITY
+    health_gained: 10000
